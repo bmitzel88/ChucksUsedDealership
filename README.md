@@ -1,7 +1,8 @@
 # ChucksUsedDealership
 Project Members:
-Owner: Brandon Mitzel
-Collaborator: Jovanni Ramirez
+- Owner: Brandon Mitzel
+- Collaborator: Jovanni Ramirez
+
 Website for used car dealership
 
 ## Requirements
