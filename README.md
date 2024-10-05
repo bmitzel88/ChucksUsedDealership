@@ -14,8 +14,11 @@ The site would make it easier to browse inventory and find cars before going to 
 Increase sales and inquiries by having website act as a sales point of contact.
 
 ## User Stories
-As a {Stakeholder/role} I want to {preform some action} so that {get a benefit}
+- As a Consumer, I want to see what cars are available
+- As a Consumer, I want to see information about the dealership, such as description of the business and location
+- As a Consumer, I want to find a sales person to talk to about additional questions.
 
-- As a Student I want to track my progress in courses so that I stay motivated and can see how much work is left and how much needs to be done
-- As a Student I want to browse courses and view lectures for a specific course so I can consume course lecture content
-- As an Instructor I want to manage (Add/Update/Delete) courses so content can be aggregated and updates can be quickly applied
+- As a Manager, I want to manage (Add/Update/Delete) Inventory to the website
+- As a Manager, I want to see persons that send their contact information inquiring about cars
+
+- As a Sales Person, I want to see persons that send their contact information inquiring to call back for potential sales
