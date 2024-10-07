@@ -12,7 +12,7 @@ Website for used car dealership
 
 ## Project Vision
 Dealership website. Site should show the available inventory, contact sales persons, information on the dealership and building location.
-The site would make it easier to browse inventory and find cars before going to the physical lot.
+The site would make it easier to browse inventory and find cars before going to the physical lot. Site should also allow users to sell their car (or at least ask and give what car it is with an email)
 
 ## Success Criteria
 Increase sales and inquiries by having website act as a sales point of contact.
