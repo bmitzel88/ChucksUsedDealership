@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChucksUsedDealership.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(DealershipDbContext))]
     [Migration("20241007204337_InitialCreate")]
     partial class InitialCreate
     {
