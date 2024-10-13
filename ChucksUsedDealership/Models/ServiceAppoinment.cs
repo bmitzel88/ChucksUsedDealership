@@ -30,7 +30,7 @@
         /// <summary>
         /// The car being serviced
         /// </summary>
-        public CarInventory Car { get; set; }
+        public CarInventory CustomerCar { get; set; }
 
         /// <summary>
         /// Customer who owns the car

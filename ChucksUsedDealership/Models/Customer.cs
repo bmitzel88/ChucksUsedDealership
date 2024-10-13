@@ -31,5 +31,15 @@
         /// PhoneNumber is the phone number of the customer
         /// </summary>
         public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// CustomerCars is a collection of cars owned by the customer
+        /// </summary>
+        public ICollection<CustomerCar> CustomerCars { get; set; }
+
+        /// <summary>
+        /// ServiceAppoinments is a collection of service appointments for the customer
+        /// </summary>
+        public ICollection<ServiceAppoinment> ServiceAppoinments { get; set; }
     }
 }
