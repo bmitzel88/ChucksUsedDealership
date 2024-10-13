@@ -126,8 +126,11 @@ namespace ChucksUsedDealership.Areas.Identity.Pages.Account
                 }
 
 
+
+
                 // Checks the user's FirstName (UserName) to get around finding the user by its first name
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

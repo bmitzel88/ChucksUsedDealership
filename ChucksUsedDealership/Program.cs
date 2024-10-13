@@ -75,5 +75,6 @@ var serviceProvider = app.Services.GetRequiredService<IServiceProvider>().Create
 await IdentityHelper.CreateRoles(serviceProvider.ServiceProvider, IdentityHelper.Admin, IdentityHelper.User);
 
 // Create default Admin
+await IdentityHelper.CreateDefaultUser(serviceProvider.ServiceProvider, IdentityHelper.Admin);
 
 app.Run();

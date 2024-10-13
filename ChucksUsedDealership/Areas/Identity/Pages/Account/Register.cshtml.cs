@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ChucksUsedDealership.Models;
 
 namespace ChucksUsedDealership.Areas.Identity.Pages.Account
 {
@@ -127,6 +128,9 @@ namespace ChucksUsedDealership.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Adds new accounts to the user role
+                    await _userManager.AddToRoleAsync(user, IdentityHelper.User);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
