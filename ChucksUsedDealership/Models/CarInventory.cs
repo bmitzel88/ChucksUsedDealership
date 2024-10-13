@@ -50,7 +50,7 @@ namespace ChucksUsedDealership.Models
         /// </summary>
         [Required]
         [Range(0, 1000000)]
-        [DataType(DataType.Currency)
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
         /// <summary>
