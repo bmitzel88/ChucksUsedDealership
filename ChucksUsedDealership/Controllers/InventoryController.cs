@@ -1,4 +1,5 @@
 ﻿using ChucksUsedDealership.Data;
+using ChucksUsedDealership.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,79 +25,104 @@ namespace ChucksUsedDealership.Controllers
             return View(model);
         }
 
-        // GET: InventoryController/Details/5
+        // GET: Displays details about a car for sale
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: InventoryController/Create
+        // GET: Asks to create
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: InventoryController/Create
+        // POST: Actually creates car
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CarInventory car)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _context.CarInventories.Add(car);
+                await _context.SaveChangesAsync();
+
+                // Show success message on page
+                ViewData["Message"] = $"{car.Make} {car.Model} was added successfully!";
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(car);
         }
 
-        // GET: InventoryController/Edit/5
+        // GET: Displays the edit confirmation view
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            CarInventory carToEdit = await _context.CarInventories.FindAsync(id);
+
+            if (carToEdit == null)
+            {
+                return NotFound();
+            }
+            return View(carToEdit);
         }
 
-        // POST: InventoryController/Edit/5
+        // POST: Actually edits the car after confirmation
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(CarInventory car)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _context.CarInventories.Update(car);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = $"{car.Make} {car.Model} was updated successfully";
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(car);
         }
 
-        // GET: InventoryController/Delete/5
+        // GET: Displays the delete confirmation view
         [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            CarInventory carToDelete = await _context.CarInventories.FindAsync(id);
+
+            if (carToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return View(carToDelete);
         }
 
-        // POST: InventoryController/Delete/5
-        [HttpPost]
+        // POST: Actually deletes the car after confirmation
+        [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int id, IFormCollection collection)
         {
-            try
+            CarInventory carToDelete = await _context.CarInventories.FindAsync(id);
+
+            if (carToDelete != null)
             {
-                return RedirectToAction(nameof(Index));
+                _context.CarInventories.Remove(carToDelete);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = $"{carToDelete.Make} {carToDelete.Model} was deleted successfully";
+
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            TempData["Message"] = "This product was already deleted";
+            return RedirectToAction("Index");
+
+
         }
     }
 }
