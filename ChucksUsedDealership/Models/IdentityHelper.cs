@@ -7,6 +7,7 @@ namespace ChucksUsedDealership.Models
     public static class IdentityHelper
     {
         public const string Admin = "Admin";
+        public const string Sales = "Sales";
         public const string User = "User";
 
         public static async Task CreateRoles(IServiceProvider provider, params string[] roles)
