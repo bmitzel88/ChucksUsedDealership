@@ -57,7 +57,27 @@ namespace ChucksUsedDealership.Models
                 }
 
             }
+            await ConfirmAdminEmail(provider);
+        }
 
+        public static async Task ConfirmAdminEmail(IServiceProvider provider)
+        {
+            var userManager = provider.GetService<UserManager<IdentityUser>>();
+            var admin = await userManager.FindByEmailAsync("admin@chucksdealership.com");
+            
+            if (admin != null)
+            {
+                // Set email to true
+                admin.EmailConfirmed = true;
+
+                // Update the user
+                var result = await userManager.UpdateAsync(admin);
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception("Failed to confirm the default admin email.");
+                }
+            }
         }
     }
 }
