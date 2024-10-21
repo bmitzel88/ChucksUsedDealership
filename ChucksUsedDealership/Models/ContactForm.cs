@@ -4,6 +4,8 @@ namespace ChucksUsedDealership.Models
 {
     public class ContactForm
     {
+        public int ContactFormId { get; set; }
+
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
