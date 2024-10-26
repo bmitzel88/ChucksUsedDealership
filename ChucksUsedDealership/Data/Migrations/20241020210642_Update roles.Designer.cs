@@ -4,6 +4,7 @@ using ChucksUsedDealership.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChucksUsedDealership.Data.Migrations
 {
     [DbContext(typeof(DealershipDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241020210642_Update roles")]
+    partial class Updateroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,31 +64,6 @@ namespace ChucksUsedDealership.Data.Migrations
                     b.HasKey("CarId");
 
                     b.ToTable("CarInventories");
-                });
-
-            modelBuilder.Entity("ChucksUsedDealership.Models.ContactForm", b =>
-                {
-                    b.Property<int>("ContactFormId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactFormId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ContactFormId");
-
-                    b.ToTable("ContactForms");
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.Customer", b =>

@@ -7,6 +7,7 @@ namespace ChucksUsedDealership.Models
     public static class IdentityHelper
     {
         public const string Admin = "Admin";
+        public const string Sales = "Sales";
         public const string User = "User";
 
         public static async Task CreateRoles(IServiceProvider provider, params string[] roles)
@@ -57,7 +58,27 @@ namespace ChucksUsedDealership.Models
                 }
 
             }
+            await ConfirmAdminEmail(provider);
+        }
 
+        public static async Task ConfirmAdminEmail(IServiceProvider provider)
+        {
+            var userManager = provider.GetService<UserManager<IdentityUser>>();
+            var admin = await userManager.FindByEmailAsync("admin@chucksdealership.com");
+            
+            if (admin != null)
+            {
+                // Set email to true
+                admin.EmailConfirmed = true;
+
+                // Update the user
+                var result = await userManager.UpdateAsync(admin);
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception("Failed to confirm the default admin email.");
+                }
+            }
         }
     }
 }

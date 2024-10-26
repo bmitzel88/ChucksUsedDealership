@@ -22,5 +22,7 @@ namespace ChucksUsedDealership.Data
         public DbSet<Sales> Sales { get; set; }
 
         public DbSet<SalesPerson> SalesPeople { get; set; }
+
+        public DbSet<ContactForm> ContactForms { get; set; }
     }
 }
