@@ -28,7 +28,15 @@ namespace ChucksUsedDealership.Controllers
         // GET: Displays details about a car for sale
         public ActionResult Details(int id)
         {
-            return View();
+            var carDetails = _context.CarInventories.FindAsync(id);
+
+            if (carDetails == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(carDetails);
         }
 
         // GET: Asks to create
