@@ -33,5 +33,11 @@ namespace ChucksUsedDealership.Controllers
 
             return View("ContactFormView", model);
         }
+
+        public IActionResult ContactFormList()
+        {
+            var contactForms = _context.ContactForms.ToList();
+            return View(contactForms);
+        }
     }
 }
