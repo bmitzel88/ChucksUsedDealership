@@ -14,7 +14,7 @@ namespace ChucksUsedDealership.Controllers
         }
 
         [HttpGet]
-        public IActionResult ContactFormView()
+        public IActionResult Index()
         {
             return View();
         }
@@ -28,7 +28,7 @@ namespace ChucksUsedDealership.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Your message has been successfully submitted!";
-                return RedirectToAction("ContactFormView");
+                return RedirectToAction("Index");
             }
 
             return View("ContactFormView", model);
@@ -38,6 +38,32 @@ namespace ChucksUsedDealership.Controllers
         {
             var contactForms = _context.ContactForms.ToList();
             return View(contactForms);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ContactFormDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contactForm = await _context.ContactForms.FindAsync(id);
+            if (contactForm == null)
+            {
+                return NotFound();
+            }
+
+            return View(contactForm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ContactFormDeleteConfirmed(int id)
+        {
+            var contactForm = await _context.ContactForms.FindAsync(id);
+            _context.ContactForms.Remove(contactForm);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ContactFormList));
         }
     }
 }
