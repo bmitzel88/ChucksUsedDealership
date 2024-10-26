@@ -6,14 +6,21 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+// Register the database context
 builder.Services.AddDbContext<DealershipDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+// Add a filter to show detailed error pages in development
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<DealershipDbContext>();
+    .AddRoles<IdentityRole>() //Add roles to the Identity service
+    .AddEntityFrameworkStores<DealershipDbContext>(); // Register the Identity services and configure to use DbContext
+
+// Add support for controllers and views
 builder.Services.AddControllersWithViews();
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -44,7 +51,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 });
 
-var app = builder.Build();
+var app = builder.Build(); // Build the app
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
