@@ -26,7 +26,6 @@ namespace ChucksUsedDealership.Models
 
         [Required]
         [Display(Name = "Date Submitted")]
-        [MaxLength(50)]
         [DefaultValue("DateTime.Now")]
         public DateTime DateSubmitted { get; set; }
 
