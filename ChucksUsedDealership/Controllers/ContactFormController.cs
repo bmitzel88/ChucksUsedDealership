@@ -77,6 +77,8 @@ namespace ChucksUsedDealership.Controllers
             return RedirectToAction(nameof(ContactFormList));
         }
 
+        [Authorize(Roles = "Admin, Authorized")]
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
@@ -90,6 +92,38 @@ namespace ChucksUsedDealership.Controllers
             }
 
             return View(contactForm);
+        }
+
+        [Authorize(Roles = "Admin, Authorized")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contactForm = await _context.ContactForms.FindAsync(id);
+            if (contactForm == null)
+            {
+                return NotFound();
+            }
+
+            return View(contactForm);
+        }
+
+        [Authorize(Roles = "Admin, Authorized")]
+        [HttpPost]
+        public async Task<IActionResult> EditConfirmed(ContactForm model)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.ContactForms.Update(model);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Contact Form updated successfully!";
+                return RedirectToAction(nameof(ContactFormList));
+            }
+
+            return View("Edit", model);
         }
     }
 }
