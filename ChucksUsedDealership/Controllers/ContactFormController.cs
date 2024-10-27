@@ -77,5 +77,19 @@ namespace ChucksUsedDealership.Controllers
             return RedirectToAction(nameof(ContactFormList));
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contactForm = await _context.ContactForms.FindAsync(id);
+            if (contactForm == null)
+            {
+                return NotFound();
+            }
+
+            return View(contactForm);
+        }
     }
 }

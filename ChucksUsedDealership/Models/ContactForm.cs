@@ -31,6 +31,12 @@ namespace ChucksUsedDealership.Models
         public DateTime DateSubmitted { get; set; }
 
         [Required]
+        [Display(Name = "Subject")]
+        [MaxLength(100)]
+        [DefaultValue("No Subject")]
+        public string SubjectLine { get; set; }
+
+        [Required]
         [Display(Name = "Message")]
         [MaxLength(500)]
         public required string Message { get; set; }
