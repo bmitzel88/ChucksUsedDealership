@@ -19,14 +19,35 @@ namespace ChucksUsedDealership.Controllers
         }
 
         // GET: InventoryController
-        public ActionResult Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var model = _context.CarInventories.ToList();
-            return View(model);
+
+            const int NumCarsToDisplayPerPage = 3;
+            const int PageOffset = 1; // Need a page offset to use current page and figure out number of products to skip
+
+
+            // Check for id value
+            //                            if true   if false
+            int currPage = id.HasValue ? id.Value : 1;
+
+            int totalNumOfCars = await _context.CarInventories.CountAsync();
+            double maxNumPages = Math.Ceiling((double)totalNumOfCars / NumCarsToDisplayPerPage);
+            int lastPage = Convert.ToInt32(maxNumPages); // Rounds pages up to the next whole page number
+
+            // Get all cars from the database
+            List<CarInventory> cars = await (from car in _context.CarInventories
+                                             select car)
+                                             .Skip(NumCarsToDisplayPerPage * (currPage - PageOffset))
+                                             .Take(NumCarsToDisplayPerPage)
+                                             .ToListAsync();
+
+            InventoryViewModel inventoryModel = new(cars, lastPage, currPage);
+
+            return View(inventoryModel);
         }
 
         // GET: Displays details about a car for sale
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             var carDetails = _context.CarInventories.FindAsync(id);
 
@@ -41,7 +62,7 @@ namespace ChucksUsedDealership.Controllers
 
         // GET: Asks to create
         [Authorize(Roles = "Admin")]
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
