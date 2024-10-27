@@ -1,72 +1,103 @@
-﻿@model IEnumerable<ChucksUsedDealership.Models.CarInventory>
+﻿@model InventoryViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Our Inventory";
 }
 
-<h1>Index</h1>
+<h1>Our Inventory</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Add Car</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mileage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mileage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CarId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CarId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CarId">Delete</a>
-            </td>
-        </tr>
+
+
+@if(Model.Cars.Count() != 0){
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Make)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Color)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Mileage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(car => car.Cars[0].Image)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CarInventory item in Model.Cars)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Make)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Color)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mileage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CarId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.CarId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CarId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <h2>No cars to display</h2>
+}
+
+<nav aria-label="Inventory Pages">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.LastPage; i++)
+        {
+            if (i == Model.CurrentPage)
+            {
+                <li class="page-item active">
+                    <a class="page-link">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Shop" asp-route-id="@i">@i</a>
+                </li>
+            }
+        }
+    </ul>
+</nav>
+
