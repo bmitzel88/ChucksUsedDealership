@@ -6,8 +6,16 @@
 
 <h1>ContactFormList</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Index">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -57,3 +65,14 @@
 }
     </tbody>
 </table>
+
+<script>
+    // Auto-close the alert after 10 seconds
+    setTimeout(function () {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            alert.classList.remove('show');
+            alert.classList.add('hide');
+        }
+    }, 10000);
+</script>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 
 namespace ChucksUsedDealership.Models
@@ -9,19 +10,24 @@ namespace ChucksUsedDealership.Models
 
         [Required]
         [Display(Name = "Name")]
+        [MaxLength(50)]
         public required string Name { get; set; }
 
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
+        [MaxLength(100)]
         public required string Email { get; set; }
 
         [Required]
         [Display(Name = "Phone")]
-        public required string PhoneNumber { get; set; }
+        [MaxLength(20)]
+        public required string PhoneNumber { get; set; } = "555-55-5555";
 
         [Required]
         [Display(Name = "Date Submitted")]
+        [MaxLength(50)]
+        [DefaultValue("DateTime.Now")]
         public DateTime DateSubmitted { get; set; }
 
         [Required]

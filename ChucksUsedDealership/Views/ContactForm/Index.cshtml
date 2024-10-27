@@ -1,7 +1,12 @@
-﻿@model ChucksUsedDealership.Models.ContactForm
+﻿@using Microsoft.AspNetCore.Identity
+@model ChucksUsedDealership.Models.ContactForm
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
+    var user = await UserManager.GetUserAsync(User);
+    var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+    var isAuthorized = user != null && await UserManager.IsInRoleAsync(user, "Authorized");
 }
 
 <h1>Index</h1>
@@ -41,14 +46,17 @@
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="SubmitContactForm" class="btn btn-primary" />
+                <input type="submit" value="Submit Contact Form" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="ContactFormList" class="btn btn-secondary">View Messages</a>
-</div>
+@if (isAdmin || isAuthorized)
+{
+    <div>
+        <a asp-action="ContactFormList" class="btn btn-secondary">View Messages</a>
+    </div>
+}
 
 <script>
     document.addEventListener('input', function (event) {
