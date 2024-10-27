@@ -24,6 +24,7 @@ namespace ChucksUsedDealership.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.DateSubmitted = DateTime.Now; // Set the date submitted to the current date and time
                 _context.ContactForms.Add(model);
                 await _context.SaveChangesAsync();
 
@@ -31,7 +32,7 @@ namespace ChucksUsedDealership.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("ContactFormView", model);
+            return View("Index", model);
         }
 
         public IActionResult ContactFormList()

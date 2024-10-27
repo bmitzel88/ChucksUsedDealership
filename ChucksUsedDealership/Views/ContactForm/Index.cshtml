@@ -5,11 +5,20 @@
 }
 
 <h1>Index</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <h4>ContactForm</h4>
 <hr />
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <form asp-action="Index">
+        <form asp-action="SubmitContactForm" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -27,17 +36,12 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateSubmitted" class="control-label"></label>
-                <input asp-for="DateSubmitted" class="form-control" />
-                <span asp-validation-for="DateSubmitted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
                 <textarea asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="SubmitContactForm" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -48,13 +52,22 @@
 
 <script>
     document.addEventListener('input', function (event) {
-    if (event.target.tagName.toLowerCase() !== 'textarea') return;
-    autoExpand(event.target);
-}, false);
+        if (event.target.tagName.toLowerCase() !== 'textarea') return;
+        autoExpand(event.target);
+    }, false);
 
-function autoExpand(textarea) {
-    textarea.style.height = 'auto';
-    textarea.style.height = (textarea.scrollHeight) + 'px';
-}
+    function autoExpand(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    }
+
+    // Auto-close the alert after 10 seconds
+    setTimeout(function() {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            alert.classList.remove('show');
+            alert.classList.add('hide');
+        }
+    }, 10000);
 
 </script>
