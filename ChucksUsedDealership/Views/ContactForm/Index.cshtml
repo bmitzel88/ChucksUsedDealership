@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ChucksUsedDealership.Models.ContactForm
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    var user = await UserManager.GetUserAsync(User);
+    var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+    var isAuthorized = user != null && await UserManager.IsInRoleAsync(user, "Authorized");
+}
+
+<h1>Index</h1>
+
+<h4>ContactForm</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <form asp-action="SubmitContactForm" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectLine" class="control-label"></label>
+                <input asp-for="SubjectLine" class="form-control" />
+                <span asp-validation-for="SubjectLine" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Submit Contact Form" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="form-group mt-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
+        </div>
+    </div>
+</div>
+@if (isAdmin || isAuthorized)
+{
+    <div>
+        <a asp-action="ContactFormList" class="btn btn-secondary">View Messages</a>
+    </div>
+}
+
+<script>
+    document.addEventListener('input', function (event) {
+        if (event.target.tagName.toLowerCase() !== 'textarea') return;
+        autoExpand(event.target);
+    }, false);
+
+    function autoExpand(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    }
+</script>
