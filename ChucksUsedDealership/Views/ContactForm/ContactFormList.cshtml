@@ -6,14 +6,6 @@
 
 <h1>ContactFormList</h1>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
 <p>
     <a asp-action="Index" class="btn btn-primary">Create New</a>
 </p>
@@ -25,7 +17,7 @@
                 <th>@Html.DisplayNameFor(model => model.Email)</th>
                 <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
                 <th>@Html.DisplayNameFor(model => model.DateSubmitted)</th>
-                <th>@Html.DisplayNameFor(model => model.Message)</th>
+                <th>@Html.DisplayNameFor(model => model.SubjectLine)</th>
                 <th></th>
             </tr>
         </thead>
@@ -47,7 +39,7 @@
                     </td>
                     <td>
                         <div class="text-truncate" style="max-width: 200px;">
-                            @item.Message
+                            @item.SubjectLine
                         </div>
                     </td>
                     <td>

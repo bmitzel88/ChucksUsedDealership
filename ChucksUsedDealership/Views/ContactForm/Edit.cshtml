@@ -1,22 +1,18 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model ChucksUsedDealership.Models.ContactForm
-@inject UserManager<IdentityUser> UserManager
+﻿@model ChucksUsedDealership.Models.ContactForm
 
 @{
-    ViewData["Title"] = "Index";
-    var user = await UserManager.GetUserAsync(User);
-    var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
-    var isAuthorized = user != null && await UserManager.IsInRoleAsync(user, "Authorized");
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Index</h1>
+<h1>Edit</h1>
 
 <h4>ContactForm</h4>
 <hr />
 <div class="row">
-    <div class="col-md-6 offset-md-3">
-        <form asp-action="SubmitContactForm" method="post">
+    <div class="col-md-4">
+        <form asp-action="EditConfirmed">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ContactFormId" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -33,40 +29,28 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DateSubmitted" class="control-label"></label>
+                <input asp-for="DateSubmitted" class="form-control" />
+                <span asp-validation-for="DateSubmitted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="SubjectLine" class="control-label"></label>
                 <input asp-for="SubjectLine" class="form-control" />
                 <span asp-validation-for="SubjectLine" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
-                <textarea asp-for="Message" class="form-control"></textarea>
+                <input asp-for="Message" class="form-control" />
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
-            <div class="form-group mt-3">
-                <input type="submit" value="Submit Contact Form" class="btn btn-primary" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        <div class="form-group mt-3">
-            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
-        </div>
     </div>
 </div>
-@if (isAdmin || isAuthorized)
-{
-    <div>
-        <a asp-action="ContactFormList" class="btn btn-secondary">View Messages</a>
-    </div>
-}
 
-<script>
-    document.addEventListener('input', function (event) {
-        if (event.target.tagName.toLowerCase() !== 'textarea') return;
-        autoExpand(event.target);
-    }, false);
+<div>
+    <a asp-action="ContactFormList">Back to List</a>
+</div>
 
-    function autoExpand(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-    }
-</script>
