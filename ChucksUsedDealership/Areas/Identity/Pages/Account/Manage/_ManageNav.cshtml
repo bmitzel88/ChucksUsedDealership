@@ -1,7 +1,13 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var user = await UserManager.GetUserAsync(User);
+    var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+    var isAuthorized = user != null && await UserManager.IsInRoleAsync(user, "Authorized");
 }
+
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
@@ -13,7 +19,10 @@
     <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
     <!-- Add the new link to ContactFormList -->
-    <li class="nav-item">
-        <a class="nav-link" id="contact-form-list" asp-controller="ContactForm" asp-action="ContactFormList">Contact Form List</a>
-    </li>
+    @if (isAdmin || isAuthorized)
+    {
+        <li class="nav-item">
+            <a class="nav-link" id="contact-form-list" asp-controller="ContactForm" asp-action="ContactFormList">Contact Form List</a>
+        </li>
+    }
 </ul>
