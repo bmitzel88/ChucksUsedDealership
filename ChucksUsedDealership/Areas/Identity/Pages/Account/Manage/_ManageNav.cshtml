@@ -12,4 +12,8 @@
     }
     <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    <!-- Add the new link to ContactFormList -->
+    <li class="nav-item">
+        <a class="nav-link" id="contact-form-list" asp-controller="ContactForm" asp-action="ContactFormList">Contact Form List</a>
+    </li>
 </ul>
