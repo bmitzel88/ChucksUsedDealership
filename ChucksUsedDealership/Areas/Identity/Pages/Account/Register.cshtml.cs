@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using ChucksUsedDealership.Models;
+using Microsoft.DotNet.Scaffolding.Shared;
 
 namespace ChucksUsedDealership.Areas.Identity.Pages.Account
 {
@@ -117,8 +118,18 @@ namespace ChucksUsedDealership.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
+                // Check if the email already exists in the database
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (existingUser != null)
+                {
+                    // If email exists, add an error to ModelState to display in the UI
+                    ModelState.AddModelError(string.Empty, "This email is already registered. Please login or use another email.");
+                    return Page();
+                }
+
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.FirstName, CancellationToken.None);
@@ -166,6 +177,9 @@ namespace ChucksUsedDealership.Areas.Identity.Pages.Account
 
         private IdentityUser CreateUser()
         {
+            
+            
+            
             try
             {
                 return Activator.CreateInstance<IdentityUser>();
