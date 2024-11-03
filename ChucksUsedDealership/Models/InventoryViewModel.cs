@@ -2,6 +2,12 @@
 {
     public class InventoryViewModel
     {
+
+        public InventoryViewModel()
+        {
+            Cars = new List<CarInventory>();
+        }
+
         public InventoryViewModel(List<CarInventory> cars, int lastPage, int currPage) 
         {
             Cars = cars;
