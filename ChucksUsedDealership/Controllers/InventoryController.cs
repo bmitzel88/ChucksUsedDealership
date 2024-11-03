@@ -49,7 +49,9 @@ namespace ChucksUsedDealership.Controllers
         // GET: Displays details about a car for sale
         public async Task<IActionResult> Details(int id)
         {
+
             var carToDisplay = await _context.CarInventories.FindAsync(id);
+
 
             if (carToDisplay == null)
             {

@@ -13,7 +13,8 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.LastName)</th>
                 <th>@Html.DisplayNameFor(model => model.Email)</th>
                 <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
                 <th>@Html.DisplayNameFor(model => model.DateSubmitted)</th>
@@ -27,7 +28,8 @@
                 <tr>
                     <td>
                         <div class="text-truncate">
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                            @Html.DisplayFor(modelItem => item.LastName)
                         </div>
                     </td>
                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
