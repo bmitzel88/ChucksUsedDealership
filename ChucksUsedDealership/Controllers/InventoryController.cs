@@ -49,15 +49,19 @@ namespace ChucksUsedDealership.Controllers
         // GET: Displays details about a car for sale
         public async Task<IActionResult> Details(int id)
         {
-            var carDetails = await _context.CarInventories.FindAsync(id);
 
-            if (carDetails == null)
+            var carToDisplay = await _context.CarInventories.FindAsync(id);
+
+
+            if (carToDisplay == null)
             {
                 return NotFound();
             }
 
+            var car = new InventoryViewModel(new List<CarInventory> { carToDisplay }, 1, 1); 
 
-            return View(carDetails);
+
+            return View(car);
         }
 
         // GET: Asks to create
@@ -90,31 +94,49 @@ namespace ChucksUsedDealership.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int id)
         {
-            CarInventory carToEdit = await _context.CarInventories.FindAsync(id);
+            CarInventory carToEdit = _context.CarInventories.Find(id);
 
             if (carToEdit == null)
             {
                 return NotFound();
             }
-            return View(carToEdit);
+
+            var car = new InventoryViewModel(new List<CarInventory> { carToEdit }, 1, 1);
+            
+                return View(car);
         }
 
         // POST: Actually edits the car after confirmation
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CarInventory car)
+        public async Task<ActionResult> Edit(InventoryViewModel inventoryModel)
         {
+            
+            var car = inventoryModel.Cars.FirstOrDefault();
+
+            // Get the car ID from the form
+            int carId = inventoryModel.Cars.FirstOrDefault()?.CarId ?? 0;
+
+            var carToEdit = inventoryModel.Cars.FirstOrDefault(c => c.CarId == carId);
+
+            if (carToEdit == null)
+            {
+                ModelState.AddModelError("", "Car information is missing or could not be found.");
+                return View(inventoryModel);
+            }
+
+
             if (ModelState.IsValid)
             {
-                _context.CarInventories.Update(car);
+                _context.CarInventories.Update(carToEdit);
                 await _context.SaveChangesAsync();
 
                 TempData["Message"] = $"{car.Make} {car.Model} was updated successfully";
                 return RedirectToAction("Index");
             }
 
-            return View(car);
+            return View(inventoryModel);
         }
 
         // GET: Displays the delete confirmation view
@@ -128,16 +150,18 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            return View(carToDelete);
+            var carModel = new InventoryViewModel(new List<CarInventory>{ carToDelete }, 1, 1);
+
+            return View(carModel);
         }
 
         // POST: Actually deletes the car after confirmation
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            CarInventory carToDelete = await _context.CarInventories.FindAsync(id);
+            var carToDelete = await _context.CarInventories.FindAsync(id);
 
             if (carToDelete != null)
             {
