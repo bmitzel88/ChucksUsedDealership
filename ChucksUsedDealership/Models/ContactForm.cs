@@ -9,9 +9,14 @@ namespace ChucksUsedDealership.Models
         public int ContactFormId { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "First Name")]
         [MaxLength(50)]
-        public required string Name { get; set; }
+        public required string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        [MaxLength(50)]
+        public required string LastName { get; set; }
 
         [Required]
         [EmailAddress]
