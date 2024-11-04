@@ -2,6 +2,7 @@
 using ChucksUsedDealership.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChucksUsedDealership.Controllers
 {
@@ -40,10 +41,11 @@ namespace ChucksUsedDealership.Controllers
         [HttpGet]
         public IActionResult ContactFormList()
         {
-            var contactForms = _context.ContactForms.ToList();
+            var contactForms = _context.ContactForms
+                                .OrderByDescending(c => c.DateSubmitted)
+                                .ToList();
             return View(contactForms);
         }
-
         [Authorize(Roles = "Admin, Authorized")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
