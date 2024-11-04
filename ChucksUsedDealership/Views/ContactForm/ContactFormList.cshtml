@@ -85,6 +85,15 @@
 </div>
 
 <script>
+    // Set the selected value of the dropdown based on the pageSize parameter from the URL
+    document.addEventListener("DOMContentLoaded", function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var pageSize = urlParams.get("pageSize");
+        if (pageSize) {
+            document.getElementById("pageSize").value = pageSize;
+        }
+    });
+
     // Auto-close the alert after 10 seconds
     setTimeout(function () {
         var alert = document.querySelector('.alert');
