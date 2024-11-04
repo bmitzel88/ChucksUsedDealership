@@ -2,6 +2,7 @@
 using ChucksUsedDealership.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChucksUsedDealership.Controllers
 {
@@ -38,11 +39,28 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles ="Admin, Authorized")]
         [HttpGet]
-        public IActionResult ContactFormList()
+        public async Task<IActionResult> ContactFormList(int page = 1, int pageSize = 10)
         {
-            var contactForms = _context.ContactForms.ToList();
-            return View(contactForms);
+            var contactForms = await _context.ContactForms
+                .OrderBy(c => c.DateSubmitted)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var totalItems = _context.ContactForms.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var model = new ContactFormListViewModel
+            {
+                ContactForms = contactForms,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalPages = totalPages
+            };
+
+            return View(model);
         }
+
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpGet]

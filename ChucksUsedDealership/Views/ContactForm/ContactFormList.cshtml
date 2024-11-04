@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ChucksUsedDealership.Models.ContactForm>
+﻿@model ContactFormListViewModel
 
 @{
     ViewData["Title"] = "ContactFormList";
@@ -9,34 +9,61 @@
 <p>
     <a asp-action="Index" class="btn btn-primary">Create New</a>
 </p>
+
+<form asp-action="ContactFormList" method="get">
+    <div>
+        <label for="pageSize">Results per page:</label>
+        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+</form>
+
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                <th>@Html.DisplayNameFor(model => model.Email)</th>
-                <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                <th>@Html.DisplayNameFor(model => model.DateSubmitted)</th>
-                <th>@Html.DisplayNameFor(model => model.SubjectLine)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().DateSubmitted)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().Email)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().PhoneNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().SubjectLine)</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.ContactForms)
             {
                 <tr>
                     <td>
+                        <div class="text-truncate" style="max-width: 100px;">
+                            @item.DateSubmitted.ToString("d")
+                        </div>
+                    </td>
+                    <td>
                         <div class="text-truncate">
                             @Html.DisplayFor(modelItem => item.FirstName)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-truncate">
                             @Html.DisplayFor(modelItem => item.LastName)
                         </div>
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                     <td>
-                        <div class="text-truncate" style="max-width: 100px;">
-                            @item.DateSubmitted.ToString("dd-mm-yyyy")
+                        <div class="text-truncate">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-truncate">
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </div>
                     </td>
                     <td>
@@ -57,7 +84,30 @@
     </table>
 </div>
 
+<div class="pagination">
+    <a asp-action="ContactFormList" asp-route-page="1" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == 1 ? "disabled" : "")">First</a>
+    <a asp-action="ContactFormList" asp-route-page="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == 1 ? "disabled" : "")">Previous</a>
+
+    @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+    {
+        <a asp-action="ContactFormList" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.PageNumber ? "active" : "")">@i</a>
+    }
+
+    <a asp-action="ContactFormList" asp-route-page="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == Model.TotalPages ? "disabled" : "")">Next</a>
+    <a asp-action="ContactFormList" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == Model.TotalPages ? "disabled" : "")">Last</a>
+</div>
+
+
 <script>
+    // Set the selected value of the dropdown based on the pageSize parameter from the URL
+    document.addEventListener("DOMContentLoaded", function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var pageSize = urlParams.get("pageSize");
+        if (pageSize) {
+            document.getElementById("pageSize").value = pageSize;
+        }
+    });
+
     // Auto-close the alert after 10 seconds
     setTimeout(function () {
         var alert = document.querySelector('.alert');
@@ -75,5 +125,25 @@
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 200px; /* Adjust the width as needed */
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 5px 10px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        color: #007bff;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .pagination a.disabled {
+        pointer-events: none;
+        color: #ccc;
+        border-color: #ccc;
     }
 </style>
