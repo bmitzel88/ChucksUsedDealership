@@ -55,6 +55,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ContactFormId">Edit</a> |
-    <a asp-action="ContactFormList">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.ContactFormId" class="btn btn-primary">Edit</a> |
+    <a asp-action="ContactFormList" asp-route-page="@ViewData["PageNumber"]"
+       asp-route-pageSize="@ViewData["PageSize"]" class="btn btn-secondary">Back to List</a>
 </div>

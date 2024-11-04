@@ -3,6 +3,7 @@ using ChucksUsedDealership.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace ChucksUsedDealership.Controllers
 {
@@ -64,7 +65,7 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, int page = 1, int pageSize = 10)
         {
             if (id == null)
             {
@@ -75,6 +76,9 @@ namespace ChucksUsedDealership.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["PageNumber"] = page;
+            ViewData["PageSize"] = pageSize;
 
             return View(contactForm);
         }
@@ -97,7 +101,7 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int page = 1, int pageSize = 10)
         {
             if (id == null)
             {
@@ -108,13 +112,16 @@ namespace ChucksUsedDealership.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["PageNumber"] = page;
+            ViewData["PageSize"] = pageSize;
 
             return View(contactForm);
         }
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, int page = 1, int pageSize = 10)
         {
             if (id == null)
             {
@@ -125,6 +132,9 @@ namespace ChucksUsedDealership.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["PageNumber"] = page;
+            ViewData["PageSize"] = pageSize;
 
             return View(contactForm);
         }

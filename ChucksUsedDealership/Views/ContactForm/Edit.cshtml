@@ -43,19 +43,18 @@
                 <input asp-for="SubjectLine" class="form-control" />
                 <span asp-validation-for="SubjectLine" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Message" class="control-label"></label>
                 <input asp-for="Message" class="form-control" />
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" /> |
+                <a asp-action="ContactFormList" asp-route-page="@ViewData["PageNumber"]" class="btn btn-secondary"
+                    asp-route-pageSize="@ViewData["PageSize"]">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="ContactFormList">Back to List</a>
 </div>
 

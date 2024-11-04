@@ -73,9 +73,9 @@
                     </td>
                     <td>
                         <div class="d-flex flex-nowrap">
-                            <a asp-action="Edit" asp-route-id="@item.ContactFormId" class="btn btn-primary btn-sm me-1">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.ContactFormId" class="btn btn-info btn-sm me-1">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.ContactFormId" class="btn btn-danger btn-sm">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.ContactFormId" asp-route-page="@Model.PageNumber" asp-route-pageSize="@Model.PageSize" class="btn btn-primary btn-sm me-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ContactFormId" asp-route-page="@Model.PageNumber" asp-route-pageSize="@Model.PageSize" class="btn btn-info btn-sm me-1">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ContactFormId" asp-route-page="@Model.PageNumber" asp-route-pageSize="@Model.PageSize" class="btn btn-danger btn-sm">Delete</a>
                         </div>
                     </td>
                 </tr>
