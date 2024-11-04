@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ChucksUsedDealership.Models.ContactForm>
+﻿@model ContactFormListViewModel
 
 @{
     ViewData["Title"] = "ContactFormList";
@@ -28,17 +28,17 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.DateSubmitted)</th>
-                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                <th>@Html.DisplayNameFor(model => model.Email)</th>
-                <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                <th>@Html.DisplayNameFor(model => model.SubjectLine)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().DateSubmitted)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().Email)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().PhoneNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactForms.First().SubjectLine)</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.ContactForms)
             {
                 <tr>
                     <td>
