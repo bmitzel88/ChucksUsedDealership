@@ -13,11 +13,11 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
+                <th>@Html.DisplayNameFor(model => model.DateSubmitted)</th>
                 <th>@Html.DisplayNameFor(model => model.FirstName)</th>
                 <th>@Html.DisplayNameFor(model => model.LastName)</th>
                 <th>@Html.DisplayNameFor(model => model.Email)</th>
                 <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                <th>@Html.DisplayNameFor(model => model.DateSubmitted)</th>
                 <th>@Html.DisplayNameFor(model => model.SubjectLine)</th>
                 <th></th>
             </tr>
@@ -27,16 +27,28 @@
             {
                 <tr>
                     <td>
+                        <div class="text-truncate" style="max-width: 100px;">
+                            @item.DateSubmitted.ToString("d")
+                        </div>
+                    </td>
+                    <td>
                         <div class="text-truncate">
                             @Html.DisplayFor(modelItem => item.FirstName)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-truncate">
                             @Html.DisplayFor(modelItem => item.LastName)
                         </div>
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                     <td>
-                        <div class="text-truncate" style="max-width: 100px;">
-                            @item.DateSubmitted.ToString("dd-mm-yyyy")
+                        <div class="text-truncate">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-truncate">
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </div>
                     </td>
                     <td>
