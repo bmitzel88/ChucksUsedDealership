@@ -9,6 +9,21 @@
 <p>
     <a asp-action="Index" class="btn btn-primary">Create New</a>
 </p>
+
+<form asp-action="ContactFormList" method="get">
+    <div>
+        <label for="pageSize">Results per page:</label>
+        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+</form>
+
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
