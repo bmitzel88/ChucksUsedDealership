@@ -1,16 +1,16 @@
 ﻿namespace ChucksUsedDealership.Models
 {
-    public class ViewModelContactForms
+    public class ContactFormListViewModel
     {
         /// <summary>
         /// List of cars to display on the page
         /// </summary>
-        public List<ContactForm> ContactForms { get; set; }
+        public List<ContactForm>? ContactForms { get; set; }
 
         /// <summary>
         /// Stores the current page number
         /// </summary>
-        public int CurrentPage { get; set; }
+        public int PageNumber { get; set; }
 
         /// <summary>
         /// Stores the total number of pages
