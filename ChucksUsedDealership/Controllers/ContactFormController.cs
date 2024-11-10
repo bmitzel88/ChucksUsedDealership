@@ -62,10 +62,10 @@ namespace ChucksUsedDealership.Controllers
             var totalItems = _context.ContactForms.Count();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var model = new ContactFormListViewModel
+            var model = new PaginationViewModel<ContactForm>
             {
-                ContactForms = contactForms,
-                PageNumber = page,
+                Items = contactForms,
+                CurrentPage = page,
                 PageSize = pageSize,
                 TotalPages = totalPages
             };
@@ -144,7 +144,7 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            ViewData["PageNumber"] = page;
+            ViewData["CurrentPage"] = page;
             ViewData["PageSize"] = pageSize;
 
             return View(contactForm);
@@ -152,14 +152,14 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpPost]
-        public async Task<IActionResult> EditConfirmed(ContactForm model)
+        public async Task<IActionResult> EditConfirmed(ContactForm model, int currentPage, int pageSize)
         {
             if (ModelState.IsValid)
             {
                 _context.ContactForms.Update(model);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Contact Form updated successfully!";
-                return RedirectToAction(nameof(ContactFormList));
+                return RedirectToAction(nameof(ContactFormList), new { page = currentPage, pageSize = pageSize });
             }
 
             return View("Edit", model);

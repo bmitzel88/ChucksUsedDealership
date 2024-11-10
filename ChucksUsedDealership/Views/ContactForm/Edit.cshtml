@@ -13,6 +13,8 @@
         <form asp-action="EditConfirmed">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ContactFormId" />
+            <input type="hidden" name="CurrentPage" value="@ViewData["CurrentPage"]" /> 
+            <input type="hidden" name="PageSize" value="@ViewData["PageSize"]" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
