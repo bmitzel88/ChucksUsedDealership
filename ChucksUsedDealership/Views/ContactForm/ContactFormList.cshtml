@@ -1,4 +1,4 @@
-﻿@model ContactFormListViewModel
+﻿@model PaginationViewModel<ContactForm>
 
 @{
     ViewData["Title"] = "ContactFormList";
@@ -28,17 +28,17 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.ContactForms.First().DateSubmitted)</th>
-                <th>@Html.DisplayNameFor(model => model.ContactForms.First().FirstName)</th>
-                <th>@Html.DisplayNameFor(model => model.ContactForms.First().LastName)</th>
-                <th>@Html.DisplayNameFor(model => model.ContactForms.First().Email)</th>
-                <th>@Html.DisplayNameFor(model => model.ContactForms.First().PhoneNumber)</th>
-                <th>@Html.DisplayNameFor(model => model.ContactForms.First().SubjectLine)</th>
+                <th>@Html.DisplayNameFor(model => model.Items.First().DateSubmitted)</th>
+                <th>@Html.DisplayNameFor(model => model.Items.First().FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.Items.First().LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.Items.First().Email)</th>
+                <th>@Html.DisplayNameFor(model => model.Items.First().PhoneNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Items.First().SubjectLine)</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.ContactForms)
+            @foreach (var item in Model.Items)
             {
                 <tr>
                     <td>
@@ -73,9 +73,9 @@
                     </td>
                     <td>
                         <div class="d-flex flex-nowrap">
-                            <a asp-action="Edit" asp-route-id="@item.ContactFormId" asp-route-page="@Model.PageNumber" asp-route-pageSize="@Model.PageSize" class="btn btn-primary btn-sm me-1">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.ContactFormId" asp-route-page="@Model.PageNumber" asp-route-pageSize="@Model.PageSize" class="btn btn-info btn-sm me-1">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.ContactFormId" asp-route-page="@Model.PageNumber" asp-route-pageSize="@Model.PageSize" class="btn btn-danger btn-sm">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.ContactFormId" asp-route-page="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" class="btn btn-primary btn-sm me-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ContactFormId" asp-route-page="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" class="btn btn-info btn-sm me-1">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ContactFormId" asp-route-page="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" class="btn btn-danger btn-sm">Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -85,16 +85,18 @@
 </div>
 
 <div class="pagination">
-    <a asp-action="ContactFormList" asp-route-page="1" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == 1 ? "disabled" : "")">First</a>
-    <a asp-action="ContactFormList" asp-route-page="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == 1 ? "disabled" : "")">Previous</a>
+    <a asp-action="ContactFormList" asp-route-page="1" asp-route-pageSize="@Model.PageSize" 
+                            class="@(Model.CurrentPage == 1 ? "disabled" : "")">First</a>
+    <a asp-action="ContactFormList" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize= 
+        "@Model.PageSize" class="@(Model.CurrentPage == 1 ? "disabled" : "")">Previous</a>
 
-    @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
     {
-        <a asp-action="ContactFormList" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.PageNumber ? "active" : "")">@i</a>
+        <a asp-action="ContactFormList" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
     }
 
-    <a asp-action="ContactFormList" asp-route-page="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == Model.TotalPages ? "disabled" : "")">Next</a>
-    <a asp-action="ContactFormList" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.PageNumber == Model.TotalPages ? "disabled" : "")">Last</a>
+    <a asp-action="ContactFormList" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Next</a>
+    <a asp-action="ContactFormList" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Last</a>
 </div>
 
 

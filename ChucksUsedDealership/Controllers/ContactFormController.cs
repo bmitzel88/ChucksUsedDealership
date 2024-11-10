@@ -51,10 +51,10 @@ namespace ChucksUsedDealership.Controllers
             var totalItems = _context.ContactForms.Count();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var model = new ContactFormListViewModel
+            var model = new PaginationViewModel<ContactForm>
             {
-                ContactForms = contactForms,
-                PageNumber = page,
+                Items = contactForms,
+                CurrentPage = page,
                 PageSize = pageSize,
                 TotalPages = totalPages
             };
