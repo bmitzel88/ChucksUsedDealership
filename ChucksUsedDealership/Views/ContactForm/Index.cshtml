@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var carDetails = ViewData["CarSubject"] as string ?? "";
     var user = await UserManager.GetUserAsync(User);
     var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
     var isAuthorized = user != null && await UserManager.IsInRoleAsync(user, "Authorized");
@@ -32,11 +33,22 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SubjectLine" class="control-label"></label>
-                <input asp-for="SubjectLine" class="form-control" />
-                <span asp-validation-for="SubjectLine" class="text-danger"></span>
-            </div>
+            @if (ViewData["carSubject"] == "")
+            {
+                <div class="form-group">
+                    <label asp-for="SubjectLine" class="control-label"></label>
+                    <input asp-for="SubjectLine" class="form-control" />
+                    <span asp-validation-for="SubjectLine" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="SubjectLine" class="control-label"></label>
+                    <input asp-for="SubjectLine" class="form-control" value="@carDetails" readonly />
+                    <span asp-validation-for="SubjectLine" class="text-danger"></span>
+                </div>
+            }
 
             <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
