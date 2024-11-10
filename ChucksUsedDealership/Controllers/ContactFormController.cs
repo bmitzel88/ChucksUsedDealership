@@ -133,7 +133,7 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            ViewData["PageNumber"] = page;
+            ViewData["CurrentPage"] = page;
             ViewData["PageSize"] = pageSize;
 
             return View(contactForm);
@@ -141,14 +141,14 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpPost]
-        public async Task<IActionResult> EditConfirmed(ContactForm model)
+        public async Task<IActionResult> EditConfirmed(ContactForm model, int currentPage, int pageSize)
         {
             if (ModelState.IsValid)
             {
                 _context.ContactForms.Update(model);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Contact Form updated successfully!";
-                return RedirectToAction(nameof(ContactFormList));
+                return RedirectToAction(nameof(ContactFormList), new { page = currentPage, pageSize = pageSize });
             }
 
             return View("Edit", model);
