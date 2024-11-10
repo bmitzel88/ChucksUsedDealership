@@ -56,8 +56,8 @@
 
 <form asp-action="RedirectToContact" method="post">
     <input type="hidden" name="carId" value="@Model.Cars[0].CarId" />
-    <input type="hidden" name="make" value="@Model.Cars[0].Make" />
-    <input type="hidden" name="model" value="@Model.Cars[0].Model" />
+    <input type="hidden" name="carMake" value="@Model.Cars[0].Make" />
+    <input type="hidden" name="carModel" value="@Model.Cars[0].Model" />
     <button type="submit">Talk to a representative</button>
 </form>
 
