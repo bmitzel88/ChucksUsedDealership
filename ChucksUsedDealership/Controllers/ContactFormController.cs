@@ -88,7 +88,7 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            ViewData["PageNumber"] = page;
+            ViewData["CurrentPage"] = page;
             ViewData["PageSize"] = pageSize;
 
             return View(contactForm);
@@ -97,7 +97,7 @@ namespace ChucksUsedDealership.Controllers
         [Authorize(Roles = "Admin, Authorized")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int ContactFormId)
+        public async Task<IActionResult> DeleteConfirmed(int ContactFormId, int currentpage, int pageSize)
         {
             var contactForm = await _context.ContactForms.FindAsync(ContactFormId);
             if (contactForm == null)
@@ -107,7 +107,7 @@ namespace ChucksUsedDealership.Controllers
             _context.ContactForms.Remove(contactForm);
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Contact Form deleted successfully!";
-            return RedirectToAction(nameof(ContactFormList));
+            return RedirectToAction(nameof(ContactFormList), new { page = currentpage, pageSize = pageSize});
         }
 
         [Authorize(Roles = "Admin, Authorized")]

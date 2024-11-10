@@ -51,8 +51,10 @@
     
     <form asp-action="DeleteConfirmed" method="post">
         <input type="hidden" asp-for="ContactFormId" value="@Model.ContactFormId" />
+        <input type="hidden" name="CurrentPage" value="@ViewData["CurrentPage"]" />
+        <input type="hidden" name="PageSize" value="@ViewData["PageSize"]" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="ContactFormList" asp-route-page="@ViewData["PageNumber"]"
+        <a asp-action="ContactFormList" asp-route-page="@ViewData["CurrentPage"]"
                     asp-route-pageSize="@ViewData["PageSize"]" class="btn btn-secondary">Back to List</a>
     </form>
 </div>
