@@ -43,7 +43,7 @@ namespace ChucksUsedDealership.Controllers
         public async Task<IActionResult> ContactFormList(int page = 1, int pageSize = 10)
         {
             var contactForms = await _context.ContactForms
-                .OrderBy(c => c.DateSubmitted)
+                .OrderByDescending(c => c.DateSubmitted)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -65,7 +65,7 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles = "Admin, Authorized")]
         [HttpGet]
-        public async Task<IActionResult> Delete(int id, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Delete(int? id, int page = 1, int pageSize = 10)
         {
             if (id == null)
             {
