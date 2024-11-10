@@ -177,5 +177,15 @@ namespace ChucksUsedDealership.Controllers
 
 
         }
+
+        // POST : Redirects a user from the details page to a ContactForm with
+        //        the subject box filled out already and disabled
+
+        [HttpPost]
+        public IActionResult RedirectToContact(int carId, string carMake, string carModel)
+        {
+            // Pass the information needed to ContactForm controller
+            return RedirectToAction("Inquiry", "ContactForm", new { carId, carMake, carModel });
+        }
     }
 }

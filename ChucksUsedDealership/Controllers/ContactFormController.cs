@@ -22,6 +22,17 @@ namespace ChucksUsedDealership.Controllers
             return View();
         }
 
+        // GET : Used for inquiring about a car in the inventory
+        [HttpGet]
+        public IActionResult Inquiry(int carId, string carMake, string carModel)
+        {
+            // Build a string for the subject box
+            var carSubject = $"Car ID: {carId}, Make: {carMake}, Model: {carModel}";
+
+            ViewData["carSubject"] = carSubject;
+            return View("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> SubmitContactForm(ContactForm model)
         {

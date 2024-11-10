@@ -53,6 +53,15 @@
         </dd>
     </dl>
 </div>
+
+<form asp-action="RedirectToContact" method="post">
+    <input type="hidden" name="carId" value="@Model.Cars[0].CarId" />
+    <input type="hidden" name="carMake" value="@Model.Cars[0].Make" />
+    <input type="hidden" name="carModel" value="@Model.Cars[0].Model" />
+    <button type="submit">Talk to a representative</button>
+</form>
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Cars[0].CarId">Edit</a> |
     <a asp-action="Index">Back to List</a>
