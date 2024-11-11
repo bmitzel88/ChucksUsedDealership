@@ -53,14 +53,19 @@ namespace ChucksUsedDealership.Controllers
         [HttpGet]
         public async Task<IActionResult> ContactFormList(int page = 1, int pageSize = 10)
         {
+            var totalItems = _context.ContactForms.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            //If the current page is greater then the amount of total pages, redirect user to last page
+            if (page > totalPages)
+            {
+                page = totalPages;
+            }
+
             var contactForms = await _context.ContactForms
                 .OrderByDescending(c => c.DateSubmitted)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-
-            var totalItems = _context.ContactForms.Count();
-            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
             var model = new PaginationViewModel<ContactForm>
             {
@@ -162,6 +167,8 @@ namespace ChucksUsedDealership.Controllers
                 return RedirectToAction(nameof(ContactFormList), new { page = currentPage, pageSize = pageSize });
             }
 
+            ViewData["CurrentPage"] = currentPage;
+            ViewData["PageSize"] = pageSize;
             return View("Edit", model);
         }
     }
