@@ -41,7 +41,7 @@ namespace ChucksUsedDealership.Controllers
                 Items = carInventory,
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalPages = totalItems
+                TotalPages = totalPages
             };
 
             return View(model);
