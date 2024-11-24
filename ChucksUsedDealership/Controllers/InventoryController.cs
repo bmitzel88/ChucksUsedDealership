@@ -20,7 +20,7 @@ namespace ChucksUsedDealership.Controllers
 
         [HttpGet]
         // GET: InventoryController
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 24)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 12)
         {
             var totalItems = _context.CarInventories.Count();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
