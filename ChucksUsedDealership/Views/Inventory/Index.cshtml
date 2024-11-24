@@ -1,4 +1,6 @@
-﻿@model InventoryViewModel
+﻿@* @model InventoryViewModel
+ *@
+@model PaginationViewModel<CarInventory>
 
 @{
     ViewData["Title"] = "Our Inventory";
@@ -13,13 +15,12 @@
     }
 </p>
 
-
-@if (Model.Cars.Count() != 0)
+@if (Model.Items.Count() != 0)
 {
     <div class="row">
-        @foreach (var item in Model.Cars)
+        @foreach (var item in Model.Items)
         {
-            <div class="col-md-4 mb-4">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card">
                     @*Display car image if its available*@
                     @if (!string.IsNullOrEmpty(item.Image))
@@ -58,23 +59,18 @@ else
     <h2>No vehicles to display. Sorry about that!</h2>
 }
 
-<nav aria-label="Inventory Pages">
-    <ul class="pagination">
-        @for (int i = 1; i <= Model.LastPage; i++)
-        {
-            if (i == Model.CurrentPage)
-            {
-                <li class="page-item active">
-                    <a class="page-link">@i</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-id="@i">@i</a>
-                </li>
-            }
-        }
-    </ul>
-</nav>
+<div class="pagination">
+    <a asp-action="Index" asp-route-page="1" asp-route-pageSize="@Model.PageSize"
+       class="@(Model.CurrentPage == 1 ? "disabled" : "")">First</a>
+    <a asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == 1 ? "disabled" : "")">Previous</a>
+
+    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+    {
+        <a asp-action="Index" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
+    }
+
+    <a asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Next</a>
+    <a asp-action="Index" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Last</a>
+</div>
+
 
