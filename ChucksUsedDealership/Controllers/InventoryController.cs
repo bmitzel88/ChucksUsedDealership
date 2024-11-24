@@ -18,32 +18,33 @@ namespace ChucksUsedDealership.Controllers
             _context = context;
         }
 
+        [HttpGet]
         // GET: InventoryController
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 12)
         {
+            var totalItems = _context.CarInventories.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            //If the current page is greater then the amount of total pages, redirect user to last page
+            if (page > totalPages)
+            {
+                page = totalPages;
+            }
 
-            const int NumCarsToDisplayPerPage = 3;
-            const int PageOffset = 1; // Need a page offset to use current page and figure out number of products to skip
+            var carInventory = await _context.CarInventories
+                .OrderByDescending(c => c.CarId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
+            var model = new PaginationViewModel<CarInventory>
+            {
+                Items = carInventory,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalPages = totalPages
+            };
 
-            // Check for id value
-            //                            if true   if false
-            int currPage = id.HasValue ? id.Value : 1;
-
-            int totalNumOfCars = await _context.CarInventories.CountAsync();
-            double maxNumPages = Math.Ceiling((double)totalNumOfCars / NumCarsToDisplayPerPage);
-            int lastPage = Convert.ToInt32(maxNumPages); // Rounds pages up to the next whole page number
-
-            // Get all cars from the database
-            List<CarInventory> cars = await (from car in _context.CarInventories
-                                             select car)
-                                             .Skip(NumCarsToDisplayPerPage * (currPage - PageOffset))
-                                             .Take(NumCarsToDisplayPerPage)
-                                             .ToListAsync();
-
-            InventoryViewModel inventoryModel = new(cars, lastPage, currPage);
-
-            return View(inventoryModel);
+            return View(model);
         }
 
         // GET: Displays details about a car for sale

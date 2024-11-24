@@ -103,11 +103,11 @@
 
 <script>
     // Set the selected value of the dropdown based on the pageSize parameter from the URL
-    document.addEventListener("DOMContentLoaded", function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        var pageSize = urlParams.get("pageSize");
+    document.addEventListener("DOMContentLoaded", function () { //event listener for when the page loads
+        var urlParams = new URLSearchParams(window.location.search); // get the query string from the URL
+        var pageSize = urlParams.get("pageSize"); // get the pageSize parameter from the query string
         if (pageSize) {
-            document.getElementById("pageSize").value = pageSize;
+            document.getElementById("pageSize").value = pageSize; // set the value of the dropdown to the pageSize parameter
         }
     });
 

@@ -1,4 +1,6 @@
-﻿@model InventoryViewModel
+﻿@* @model InventoryViewModel
+ *@
+@model PaginationViewModel<CarInventory>
 
 @{
     ViewData["Title"] = "Our Inventory";
@@ -13,13 +15,23 @@
     }
 </p>
 
+<form asp-action="Index" method="get"> 
+    <label for="pageSize">Results per page:</label> 
+    <select id="pageSize" name="pageSize" onchange="this.form.submit()">  
+        <option value="12">12</option> 
+        <option value="24">24</option>
+        <option value="48">48</option> 
+        <option value="120">120</option> 
+    </select>
+    <input type="hidden" name="page" value="@Model.CurrentPage"/>
+</form>
 
-@if (Model.Cars.Count() != 0)
+@if (Model.Items.Count() != 0)
 {
     <div class="row">
-        @foreach (var item in Model.Cars)
+        @foreach (var item in Model.Items)
         {
-            <div class="col-md-4 mb-4">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card">
                     @*Display car image if its available*@
                     @if (!string.IsNullOrEmpty(item.Image))
@@ -58,23 +70,67 @@ else
     <h2>No vehicles to display. Sorry about that!</h2>
 }
 
-<nav aria-label="Inventory Pages">
-    <ul class="pagination">
-        @for (int i = 1; i <= Model.LastPage; i++)
-        {
-            if (i == Model.CurrentPage)
-            {
-                <li class="page-item active">
-                    <a class="page-link">@i</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-id="@i">@i</a>
-                </li>
-            }
-        }
-    </ul>
-</nav>
+<div class="pagination">
+    <a asp-action="Index" asp-route-page="1" asp-route-pageSize="@Model.PageSize"
+       class="@(Model.CurrentPage == 1 ? "disabled" : "")">First</a>
+    <a asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == 1 ? "disabled" : "")">Previous</a>
 
+    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+    {
+        <a asp-action="Index" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
+    }
+
+    <a asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Next</a>
+    <a asp-action="Index" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Last</a>
+</div>
+
+<script>
+     // Set the selected value of the dropdown based on the pageSize parameter from the URL
+    document.addEventListener("DOMContentLoaded", function () { //event listener for when the page loads
+        var urlParams = new URLSearchParams(window.location.search); // get the query string from the URL
+        var pageSize = urlParams.get("pageSize"); // get the pageSize parameter from the query string
+        if (pageSize) {
+            document.getElementById("pageSize").value = pageSize; // set the value of the dropdown to the pageSize parameter
+        }
+    });
+</script>
+
+<style>
+    .text-truncate {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px; /* Adjust the width as needed */
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 5px 10px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        color: #007bff;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .pagination a.disabled {
+        pointer-events: none;
+        color: #ccc;
+        border-color: #ccc;
+    }
+
+    .card-body {
+        height: 190px; 
+        overflow: hidden;
+    }
+
+    .card-title {
+        height: 2em;
+        font-size: 18px;
+    }
+</style>
