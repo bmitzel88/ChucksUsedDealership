@@ -54,7 +54,7 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete" method="post">
+    <form asp-action="DeleteConfirmed">
         <input type="hidden" asp-for="CarId" value="@Model.CarId" />
         <input type="hidden" name="CurrentPage" value="@ViewData["CurrentPage"]" />
         <input type="hidden" name="PageSize" value="@ViewData["PageSize"]" />

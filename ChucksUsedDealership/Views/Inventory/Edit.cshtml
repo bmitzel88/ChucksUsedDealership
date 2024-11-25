@@ -1,50 +1,52 @@
-﻿@model InventoryViewModel
+﻿@model ChucksUsedDealership.Models.CarInventory
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit @Model.Cars[0].Model</h1>
+<h1>Edit @Model.Model</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="EditConfirmed" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Cars[0].CarId" />
+            <input type="hidden" asp-for="CarId" />
+            <input type="hidden" name="CurrentPage" value="@ViewData["CurrentPage"]" />
+            <input type="hidden" name="PageSize" value="@ViewData["PageSize"]" />
             <div class="form-group">
-                <label asp-for="Cars[0].Make" class="control-label"></label>
-                <input asp-for="Cars[0].Make" class="form-control" />
-                <span asp-validation-for="Cars[0].Make" class="text-danger"></span>
+                <label asp-for="Make" class="control-label"></label>
+                <input asp-for="Make" class="form-control" />
+                <span asp-validation-for="Make" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cars[0].Model" class="control-label"></label>
-                <input asp-for="Cars[0].Model" class="form-control" />
-                <span asp-validation-for="Cars[0].Model" class="text-danger"></span>
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cars[0].Year" class="control-label"></label>
-                <input asp-for="Cars[0].Year" class="form-control" />
-                <span asp-validation-for="Cars[0].Year" class="text-danger"></span>
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cars[0].Color" class="control-label"></label>
-                <input asp-for="Cars[0].Color" class="form-control" />
-                <span asp-validation-for="Cars[0].Color" class="text-danger"></span>
+                <label asp-for="Color" class="control-label"></label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cars[0].Mileage" class="control-label"></label>
-                <input asp-for="Cars[0].Mileage" class="form-control" />
-                <span asp-validation-for="Cars[0].Mileage" class="text-danger"></span>
+                <label asp-for="Mileage" class="control-label"></label>
+                <input asp-for="Mileage" class="form-control" />
+                <span asp-validation-for="Mileage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cars[0].Price" class="control-label"></label>
-                <input asp-for="Cars[0].Price" class="form-control" />
-                <span asp-validation-for="Cars[0].Price" class="text-danger"></span>
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cars[0].Image" class="control-label"></label>
-                <input asp-for="Cars[0].Image" class="form-control" />
-                <span asp-validation-for="Cars[0].Image" class="text-danger"></span>
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -54,7 +56,8 @@
 </div>
 
 <div>
-    <a asp-asp-controller="Inventory" asp-action="Index">Back to Inventory</a>
+    <a asp-asp-controller="Inventory" asp-action="Index" asp-route-page="@ViewData["CurrentPage"]" 
+        asp-route-pageSize="@ViewData["PageSize"]">Back to Inventory</a>
 </div>
 
 @section Scripts {

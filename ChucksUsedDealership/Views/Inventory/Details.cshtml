@@ -1,4 +1,4 @@
-﻿@model InventoryViewModel
+﻿@model CarInventory
 
 @{
     ViewData["Title"] = "Details";
@@ -10,59 +10,62 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Make)
+            @Html.DisplayNameFor(model => model.Make)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Make)
+            @Html.DisplayFor(model => model.Make)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Model)
+            @Html.DisplayNameFor(model => model.Model)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Model)
+            @Html.DisplayFor(model => model.Model)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Year)
+            @Html.DisplayNameFor(model => model.Year)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Year)
+            @Html.DisplayFor(model => model.Year)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Color)
+            @Html.DisplayNameFor(model => model.Color)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Color)
+            @Html.DisplayFor(model => model.Color)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Mileage)
+            @Html.DisplayNameFor(model => model.Mileage)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Mileage)
+            @Html.DisplayFor(model => model.Mileage)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Price)
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Price)
+            @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Image)
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Image)
+            @Html.DisplayFor(model => model.Image)
         </dd>
     </dl>
 </div>
 
 <form asp-action="RedirectToContact" method="post">
-    <input type="hidden" name="carId" value="@Model.Cars[0].CarId" />
-    <input type="hidden" name="carMake" value="@Model.Cars[0].Make" />
-    <input type="hidden" name="carModel" value="@Model.Cars[0].Model" />
+    <input type="hidden" name="carId" value="@Model.CarId" />
+    <input type="hidden" name="carMake" value="@Model.Make" />
+    <input type="hidden" name="carModel" value="@Model.Model" />
     <button type="submit">Talk to a representative</button>
 </form>
 
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Cars[0].CarId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.CarId" asp-route-page="@ViewData["CurrentPage"]"
+       asp-route-pageSize="@ViewData["PageSize"]">Edit</a> |
+    
+    <a asp-action="Index" asp-route-page="@ViewData["CurrentPage"]"
+       asp-route-pageSize="@ViewData["PageSize"]">Back to List</a>
 </div>
