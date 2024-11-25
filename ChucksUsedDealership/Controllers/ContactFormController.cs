@@ -19,6 +19,7 @@ namespace ChucksUsedDealership.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewData["carSubject"] = null;
             return View();
         }
 
@@ -28,6 +29,7 @@ namespace ChucksUsedDealership.Controllers
         {
             // Build a string for the subject box
             var carSubject = $"Car ID: {carId}, Make: {carMake}, Model: {carModel}";
+
 
             ViewData["carSubject"] = carSubject;
             return View("Index");
@@ -53,8 +55,9 @@ namespace ChucksUsedDealership.Controllers
         [HttpGet]
         public async Task<IActionResult> ContactFormList(int page = 1, int pageSize = 10)
         {
-            var totalItems = _context.ContactForms.Count();
-            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var totalItems = await _context.ContactForms.CountAsync();
+            var totalPages = Math.Max((int)Math.Ceiling(totalItems / (double)pageSize), 1);
+
             //If the current page is greater then the amount of total pages, redirect user to last page
             if (page > totalPages)
             {

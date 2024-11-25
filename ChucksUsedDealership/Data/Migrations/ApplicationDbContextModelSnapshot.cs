@@ -60,7 +60,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasKey("CarId");
 
-                    b.ToTable("CarInventories");
+                    b.ToTable("CarInventories", (string)null);
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.ContactForm", b =>
@@ -120,7 +120,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasIndex("ContactFormId1");
 
-                    b.ToTable("ContactForms");
+                    b.ToTable("ContactForms", (string)null);
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.Customer", b =>
@@ -158,7 +158,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.CustomerCar", b =>
@@ -193,7 +193,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("CustomerCars");
+                    b.ToTable("CustomerCars", (string)null);
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.Sales", b =>
@@ -230,7 +230,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasIndex("carID");
 
-                    b.ToTable("Sales");
+                    b.ToTable("Sales", (string)null);
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.SalesPerson", b =>
@@ -263,7 +263,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasKey("SalesPersonId");
 
-                    b.ToTable("SalesPeople");
+                    b.ToTable("SalesPeople", (string)null);
                 });
 
             modelBuilder.Entity("ChucksUsedDealership.Models.ServiceAppoinment", b =>
@@ -297,7 +297,7 @@ namespace ChucksUsedDealership.Data.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("ServiceAppoinments");
+                    b.ToTable("ServiceAppoinments", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
