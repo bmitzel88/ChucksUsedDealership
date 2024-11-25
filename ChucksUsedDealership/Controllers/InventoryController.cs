@@ -142,7 +142,7 @@ namespace ChucksUsedDealership.Controllers
 
         // GET: Displays the delete confirmation view
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id, int page, int pageSize)
         {
             CarInventory carToDelete = await _context.CarInventories.FindAsync(id);
 
@@ -151,16 +151,17 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            var carModel = new InventoryViewModel(new List<CarInventory>{ carToDelete }, 1, 1);
+            ViewData["CurrentPage"] = page;
+            ViewData["PageSize"] = pageSize;
 
-            return View(carModel);
+            return View(carToDelete);
         }
 
         // POST: Actually deletes the car after confirmation
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id, int currentPage, int currentPageSize)
         {
             var carToDelete = await _context.CarInventories.FindAsync(id);
 
@@ -170,11 +171,11 @@ namespace ChucksUsedDealership.Controllers
                 await _context.SaveChangesAsync();
                 TempData["Message"] = $"{carToDelete.Make} {carToDelete.Model} was deleted successfully";
 
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index), new { page = currentPage, pageSize = currentPageSize } );
             }
 
-            TempData["Message"] = "This product was already deleted";
-            return RedirectToAction("Index");
+            TempData["Message"] = "This product does not exist or has already been deleted";
+            return RedirectToAction( nameof(Index), new { page = currentPage, pageSize = currentPageSize } );
 
 
         }
