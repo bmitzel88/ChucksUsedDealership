@@ -132,7 +132,7 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            ViewData["PageNumber"] = page;
+            ViewData["CurrentPage"] = page;
             ViewData["PageSize"] = pageSize;
 
             return View(contactForm);

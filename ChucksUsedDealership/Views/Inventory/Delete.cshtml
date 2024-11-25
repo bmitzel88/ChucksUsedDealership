@@ -1,4 +1,4 @@
-﻿@model InventoryViewModel
+﻿@model CarInventory
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,52 +11,55 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Make)
+            @Html.DisplayNameFor(model => model.Make)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Make)
+            @Html.DisplayFor(model => model.Make)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Model)
+            @Html.DisplayNameFor(model => model.Model)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Model)
+            @Html.DisplayFor(model => model.Model)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Year)
+            @Html.DisplayNameFor(model => model.Year)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Year)
+            @Html.DisplayFor(model => model.Year)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Color)
+            @Html.DisplayNameFor(model => model.Color)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Color)
+            @Html.DisplayFor(model => model.Color)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Mileage)
+            @Html.DisplayNameFor(model => model.Mileage)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Mileage)
+            @Html.DisplayFor(model => model.Mileage)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Price)
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Price)
+            @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cars[0].Image)
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cars[0].Image)
+            @Html.DisplayFor(model => model.Image)
         </dd>
     </dl>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Cars[0].CarId" />
+    <form asp-action="DeleteConfirmed">
+        <input type="hidden" asp-for="CarId" value="@Model.CarId" />
+        <input type="hidden" name="CurrentPage" value="@ViewData["CurrentPage"]" />
+        <input type="hidden" name="PageSize" value="@ViewData["PageSize"]" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to Inventory</a>
+        <a asp-action="Index" asp-route-page="@ViewData["CurrentPage"]"
+                    asp-route-pageSize="@ViewData["PageSize"]" class="btn btn-secondary">Back to List</a>
     </form>
 </div>

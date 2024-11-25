@@ -48,7 +48,7 @@ namespace ChucksUsedDealership.Controllers
         }
 
         // GET: Displays details about a car for sale
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int page = 1, int pageSize = 12)
         {
 
             var carToDisplay = await _context.CarInventories.FindAsync(id);
@@ -59,10 +59,10 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            var car = new InventoryViewModel(new List<CarInventory> { carToDisplay }, 1, 1); 
+            ViewData["CurrentPage"] = page;
+            ViewData["PageSize"] = pageSize;
 
-
-            return View(car);
+            return View(carToDisplay);
         }
 
         // GET: Asks to create
@@ -92,57 +92,54 @@ namespace ChucksUsedDealership.Controllers
         }
 
         // GET: Displays the edit confirmation view
+        [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int id, int page = 1, int pageSize = 12)
         {
-            CarInventory carToEdit = _context.CarInventories.Find(id);
+            CarInventory carToEdit = await _context.CarInventories.FindAsync(id);
 
             if (carToEdit == null)
             {
                 return NotFound();
             }
+            ViewData["CurrentPage"] = page;
+            ViewData["PageSize"] = pageSize;
 
-            var car = new InventoryViewModel(new List<CarInventory> { carToEdit }, 1, 1);
-            
-                return View(car);
+            return View(carToEdit);
         }
 
         // POST: Actually edits the car after confirmation
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(InventoryViewModel inventoryModel)
+        public async Task<ActionResult> EditConfirmed(CarInventory carToBeEdited, int currentPage, int pageSize)
         {
             
-            var car = inventoryModel.Cars.FirstOrDefault();
-
             // Get the car ID from the form
-            int carId = inventoryModel.Cars.FirstOrDefault()?.CarId ?? 0;
+            int carIdToEdit = carToBeEdited.CarId;
 
-            var carToEdit = inventoryModel.Cars.FirstOrDefault(c => c.CarId == carId);
-
-            if (carToEdit == null)
+            if (carIdToEdit == null)
             {
                 ModelState.AddModelError("", "Car information is missing or could not be found.");
-                return View(inventoryModel);
+                return View("Edit", carToBeEdited);
             }
 
 
             if (ModelState.IsValid)
             {
-                _context.CarInventories.Update(carToEdit);
+                _context.CarInventories.Update(carToBeEdited);
                 await _context.SaveChangesAsync();
-
-                TempData["Message"] = $"{car.Make} {car.Model} was updated successfully";
-                return RedirectToAction("Index");
+                //SuccessMessage tempdata is set in the shared layout for all pages to use when submitted
+                TempData["SuccessMessage"] = $"{carToBeEdited.Make} {carToBeEdited.Model} was updated successfully";
+                return RedirectToAction(nameof(Index), new { page = currentPage, pagesize = pageSize} );
             }
 
-            return View(inventoryModel);
+            return View("Edit", carToBeEdited);
         }
 
         // GET: Displays the delete confirmation view
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id, int page, int pageSize)
         {
             CarInventory carToDelete = await _context.CarInventories.FindAsync(id);
 
@@ -151,30 +148,31 @@ namespace ChucksUsedDealership.Controllers
                 return NotFound();
             }
 
-            var carModel = new InventoryViewModel(new List<CarInventory>{ carToDelete }, 1, 1);
+            ViewData["CurrentPage"] = page;
+            ViewData["PageSize"] = pageSize;
 
-            return View(carModel);
+            return View(carToDelete);
         }
 
         // POST: Actually deletes the car after confirmation
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int CarId, int currentPage, int pageSize)
         {
-            var carToDelete = await _context.CarInventories.FindAsync(id);
+            var carToDelete = await _context.CarInventories.FindAsync(CarId);
 
             if (carToDelete != null)
             {
                 _context.CarInventories.Remove(carToDelete);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = $"{carToDelete.Make} {carToDelete.Model} was deleted successfully";
+                TempData["SuccessMessage"] = $"{carToDelete.Make} {carToDelete.Model} was deleted successfully";
 
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index), new { page = currentPage, pageSize = pageSize } );
             }
 
-            TempData["Message"] = "This product was already deleted";
-            return RedirectToAction("Index");
+            TempData["SuccessMessage"] = "This product does not exist or has already been deleted";
+            return RedirectToAction( nameof(Index), new { page = currentPage, pageSize = pageSize } );
 
 
         }
