@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace ChucksUsedDealership.Models
 {
-    public class ContactForm : PaginationViewModel<ContactForm>
+    public class ContactForm
     {
         public int ContactFormId { get; set; }
 

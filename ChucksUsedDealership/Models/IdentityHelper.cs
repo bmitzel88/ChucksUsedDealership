@@ -13,6 +13,10 @@ namespace ChucksUsedDealership.Models
         public static async Task CreateRoles(IServiceProvider provider, params string[] roles)
         {
             RoleManager<IdentityRole> roleManager = provider.GetService<RoleManager<IdentityRole>>();
+            if(roleManager == null)
+            {
+                throw new Exception("RoleManager is null.");
+            }
 
             foreach (string role in roles)
             {
@@ -30,6 +34,10 @@ namespace ChucksUsedDealership.Models
         public static async Task CreateDefaultUser(IServiceProvider provider, string role)
         {
             var userManager = provider.GetService<UserManager<IdentityUser>>();
+            if(userManager == null)
+            {
+                throw new Exception("UserManager is null.");
+            }
 
             // If no users are present make the default user
             int numUsers = (await userManager.GetUsersInRoleAsync(role)).Count;
@@ -64,6 +72,11 @@ namespace ChucksUsedDealership.Models
         public static async Task ConfirmAdminEmail(IServiceProvider provider)
         {
             var userManager = provider.GetService<UserManager<IdentityUser>>();
+            if (userManager == null)
+            {
+                throw new Exception("UserManager is null.");
+            }
+
             var admin = await userManager.FindByEmailAsync("admin@chucksdealership.com");
             
             if (admin != null)

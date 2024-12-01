@@ -10,7 +10,7 @@ namespace ChucksUsedDealership.Controllers
 {
     public class InventoryController : Controller
     {
-        private readonly DealershipDbContext? _context;
+        private readonly DealershipDbContext _context;
 
         // Inject dealershipDB
         public InventoryController(DealershipDbContext context)
@@ -22,9 +22,14 @@ namespace ChucksUsedDealership.Controllers
         // GET: InventoryController
         public async Task<IActionResult> Index(int page = 1, int pageSize = 12)
         {
-            var totalItems = _context.CarInventories.Count();
+            if (page < 1) { page = 1; }
+
+            var totalItems = await _context.CarInventories.CountAsync();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             //If the current page is greater then the amount of total pages, redirect user to last page
+
+            if (totalPages < 1) { totalPages = 1; }
+
             if (page > totalPages)
             {
                 page = totalPages;
@@ -96,7 +101,7 @@ namespace ChucksUsedDealership.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int id, int page = 1, int pageSize = 12)
         {
-            CarInventory carToEdit = await _context.CarInventories.FindAsync(id);
+            CarInventory? carToEdit = await _context.CarInventories.FindAsync(id);
 
             if (carToEdit == null)
             {
@@ -116,7 +121,7 @@ namespace ChucksUsedDealership.Controllers
         {
             
             // Get the car ID from the form
-            int carIdToEdit = carToBeEdited.CarId;
+            int? carIdToEdit = carToBeEdited.CarId;
 
             if (carIdToEdit == null)
             {
@@ -141,7 +146,7 @@ namespace ChucksUsedDealership.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id, int page, int pageSize)
         {
-            CarInventory carToDelete = await _context.CarInventories.FindAsync(id);
+            CarInventory? carToDelete = await _context.CarInventories.FindAsync(id);
 
             if (carToDelete == null)
             {
