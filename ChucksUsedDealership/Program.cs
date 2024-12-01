@@ -79,7 +79,8 @@ app.MapRazorPages();
 
 var serviceProvider = app.Services.GetRequiredService<IServiceProvider>().CreateScope();
 // Create default roles
-await IdentityHelper.CreateRoles(serviceProvider.ServiceProvider, IdentityHelper.Admin, IdentityHelper.User, IdentityHelper.Sales);
+await IdentityHelper.CreateRoles(serviceProvider.ServiceProvider, IdentityHelper.Admin, 
+    IdentityHelper.User, IdentityHelper.Sales);
 
 // Create default Admin
 await IdentityHelper.CreateDefaultUser(serviceProvider.ServiceProvider, IdentityHelper.Admin);
