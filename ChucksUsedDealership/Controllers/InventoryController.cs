@@ -46,8 +46,12 @@ namespace ChucksUsedDealership.Controllers
                 Items = carInventory,
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                ShowPagination = totalItems > 0
             };
+
+            ViewData["ShowPagination"] = model.ShowPagination;
+            ViewData["ViewModelPagination"] = "Index";
 
             return View(model);
         }
