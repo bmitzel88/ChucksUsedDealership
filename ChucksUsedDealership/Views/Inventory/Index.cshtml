@@ -13,16 +13,7 @@
     }
 </p>
 
-<form asp-action="Index" method="get"> 
-    <label for="pageSize">Results per page:</label> 
-    <select id="pageSize" name="pageSize" onchange="this.form.submit()">  
-        <option value="12">12</option> 
-        <option value="24">24</option>
-        <option value="48">48</option> 
-        <option value="120">120</option> 
-    </select>
-    <input type="hidden" name="page" value="@Model.CurrentPage"/>
-</form>
+
 
 @if (Model.Items != null && Model.Items.Count() != 0)
 {
@@ -68,19 +59,7 @@ else
     <h2>No vehicles to display. Sorry about that!</h2>
 }
 
-<div class="pagination">
-    <a asp-action="Index" asp-route-page="1" asp-route-pageSize="@Model.PageSize"
-       class="@(Model.CurrentPage == 1 ? "disabled" : "")">First</a>
-    <a asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == 1 ? "disabled" : "")">Previous</a>
 
-    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
-    {
-        <a asp-action="Index" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
-    }
-
-    <a asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Next</a>
-    <a asp-action="Index" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Last</a>
-</div>
 
 <script>
      // Set the selected value of the dropdown based on the pageSize parameter from the URL
