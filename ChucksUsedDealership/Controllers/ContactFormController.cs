@@ -53,7 +53,7 @@ namespace ChucksUsedDealership.Controllers
 
         [Authorize(Roles ="Admin, Authorized")]
         [HttpGet]
-        public async Task<IActionResult> ContactFormList(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> ContactFormList(int page = 1, int pageSize = 12)
         {
             var totalItems = await _context.ContactForms.CountAsync();
             var totalPages = Math.Max((int)Math.Ceiling(totalItems / (double)pageSize), 1);
@@ -75,8 +75,12 @@ namespace ChucksUsedDealership.Controllers
                 Items = contactForms,
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                ShowPagination = totalItems > 0
             };
+
+            ViewData["ShowPagination"] = model.ShowPagination;
+            ViewData["ViewModelPagination"] = "ContactFormList";
 
             return View(model);
         }

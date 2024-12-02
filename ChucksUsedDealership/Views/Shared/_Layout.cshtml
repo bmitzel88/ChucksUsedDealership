@@ -49,7 +49,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
+            @if (ViewData["ShowPagination"] != null && (bool)ViewData["ShowPagination"]) 
+            {
+                <form asp-action= "@ViewData["ViewModelPagination"]" method="get">
+                    <div>
+                        <label for="pageSize">Results per page:</label>
+                        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="48">48</option>
+                            <option value="120">120</option>
+                        </select>
+                        <input type="hidden" name="page" value="@Model.CurrentPage" />
+                    </div>
+                </form>
+            }
+
             @RenderBody()
+            @if (ViewData["ShowPagination"] != null && (bool)ViewData["ShowPagination"])
+            {
+                <div class="pagination">
+                    <a asp-action= "@ViewData["ViewModelPagination"]" asp-route-page="1" asp-route-pageSize="@Model.PageSize"
+                       class="@(Model.CurrentPage == 1 ? "disabled" : "")">First</a>
+                    <a asp-action= "@ViewData["ViewModelPagination"]" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == 1 ? "disabled" : "")">Previous</a>
+
+                    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                    {
+                        <a asp-action= "@ViewData["ViewModelPagination"]" asp-route-page="@i" asp-route-pageSize="@Model.PageSize" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
+                    }
+
+                    <a asp-action= "@ViewData["ViewModelPagination"]" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Next</a>
+                    <a asp-action="@ViewData["ViewModelPagination"]" asp-route-page="@Model.TotalPages" asp-route-pageSize="@Model.PageSize" class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">Last</a>
+                </div>
+            }
         </main>
     </div>
 
