@@ -9,5 +9,7 @@
         public int PageSize { get; set; }
 
         public int TotalPages { get; set; }
+
+        public bool ShowPagination { get; set; }
     }
 }
